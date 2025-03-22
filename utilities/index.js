@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const dbConnect = require('../database/'); // Import dbConnect.js
 
 const Util= {};

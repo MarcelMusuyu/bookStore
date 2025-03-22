@@ -7,6 +7,7 @@ const getPublishers =  async (req, res) => {
     try {
         const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
         const publishers = await Publisher.find();
+        res.setHeader('Content-Type', 'application/json');
         res.json(publishers);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -18,6 +19,36 @@ const getPublisherById =  async (req, res) => {
           const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
         const publisher = await Publisher.findById(req.params.id);
         if (!publisher) return res.status(404).json({ message: 'Publisher not found' });
+        res.setHeader('Content-Type', 'application/json');
+        res.json(publisher);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Assuming you have your bookSchema and publisherSchema defined elsewhere
+
+const getPublisherByIdWithBooks = async (req, res) => {
+    try {
+        const Publisher = await utilities.getModel('bookStore', publisherSchema, 'Publisher');
+        const Book = await utilities.getModel('bookStore', bookSchema, 'Book'); // Get the Book model
+
+        const publisher = await Publisher.findById(req.params.id).populate({
+            path: 'books', // Populate the 'books' field
+            model: 'Book' // Specify the model to use
+        });
+
+        if (!publisher) {
+            return res.status(404).json({ message: 'Publisher not found' });
+        }
+
+        // Find all books that have the publisher id as their publisher field.
+        const books = await Book.find({publisher: publisher._id});
+
+        // Add the books to the publisher object.
+        publisher.books = books;
+
+        res.setHeader('Content-Type', 'application/json');
         res.json(publisher);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -63,8 +94,8 @@ module.exports = {
     getPublisherById,
     addPublisher,
     updatePublisher,
-    deletePublisher
-
+    deletePublisher,
+    getPublisherByIdWithBooks
 
 };
 

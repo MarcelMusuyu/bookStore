@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose'); // Import mongoose
 const Schema = mongoose.Schema; //
 
 // Schemas
-const bookSchema = new mongoose.Schema({
+const bookSchema = new Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
   isbn: { type: String, required: true, unique: true },
@@ -10,7 +11,10 @@ const bookSchema = new mongoose.Schema({
   genre: { type: String, required: true },
   description: { type: String, required: true },
   pdfFile: { type: String, required: true }, // Store PDF file path or URL
-  publisher: { type: String, required: true },
+ publisher: {
+    type: Schema.Types.ObjectId, // Reference to Publisher model
+    ref: 'publisher', // Model to use
+    required: true },
   pageCount: { type: Number, required: true}
 });
 
