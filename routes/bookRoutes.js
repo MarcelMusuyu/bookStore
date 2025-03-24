@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-const bookRouter = require('express').Router(); // Changed to bookRouter
+const bookRouter = require('express').Router();
 const controller = require('../controllers/bookController');
 
 /**
  * @swagger
- * /books:
+ * /books/:
  * get:
  * summary: Get all books
  * responses:
@@ -35,7 +35,7 @@ bookRouter.get('/:id', controller.getBookById);
 
 /**
  * @swagger
- * /books:
+ * /books/:
  * post:
  * summary: Create a new book
  * requestBody:
@@ -100,4 +100,4 @@ bookRouter.put('/:id', controller.updateBookValidationRules, controller.updateBo
  */
 bookRouter.delete('/:id', controller.deleteBook);
 
-module.exports = bookRouter; // Export bookRouter
+module.exports = bookRouter;

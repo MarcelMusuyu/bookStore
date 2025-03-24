@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-const publisherRouter = require('express').Router(); // Changed to publisherRouter
+const publisherRouter = require('express').Router();
 const controller = require('../controllers/publisherController');
 
 /**
  * @swagger
- * /publishers:
+ * /publishers/:
  * get:
  * summary: Get all publishers
  * responses:
@@ -55,7 +55,7 @@ publisherRouter.get('/:id', controller.getPublisherById);
 
 /**
  * @swagger
- * /publishers:
+ * /publishers/:
  * post:
  * summary: Create a new publisher
  * requestBody:
@@ -120,4 +120,4 @@ publisherRouter.put('/:id', controller.updatePublisherValidationRules, controlle
  */
 publisherRouter.delete('/:id', controller.deletePublisher);
 
-module.exports = publisherRouter; // Export publisherRouter
+module.exports = publisherRouter;

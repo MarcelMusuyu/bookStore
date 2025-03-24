@@ -5,13 +5,14 @@ const mongoose = require('mongoose');
 const cors = require('cors'); // Import the cors package
 const env = require("dotenv").config();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output.json'); // Path to your generated Swagger file
+
 const bookRoutes = require('./routes/bookRoutes');
 const publisherRoutes = require('./routes/publisherRoutes');
 
-const connectDB = require('./database');
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger_output.json'); // Path to your generated Swagger file
+
 // const swaggerSpec = require('./swagger'); // Import swagger.js
 
 // For parsing application/json
@@ -38,17 +39,18 @@ const host = process.env.HOST;
 
 
 // Routes
-app.use('/books', bookRoutes);
+ app.use('/books', bookRoutes);
 app.use('/publishers', publisherRoutes);
+
+//app.use('/', basicRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
+      console.log(`Server listening on ${host} port ${port}`);
     });
   })
   .catch((err) => {
