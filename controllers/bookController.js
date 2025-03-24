@@ -8,9 +8,6 @@ const utilities= require('../utilities/');
 const { body, validationResult } = require('express-validator');
 // Books
 
-/** @Swagger
- * 
- */
 const getBooks = async (req, res) => {
   try {
 

@@ -35,19 +35,14 @@ const getPublisherByIdWithBooks = async (req, res) => {
         const Publisher = await utilities.getModel('bookStore', publisherSchema, 'Publisher');
         const Book = await utilities.getModel('bookStore', bookSchema, 'Book'); // Get the Book model
 
-        const publisher = await Publisher.findById(req.params.id).populate({
-            path: 'books', // Populate the 'books' field
-            model: 'book' // Specify the model to use
-        });
+       const publisher = await Publisher.findById(req.params.id);
 
         if (!publisher) {
             return res.status(404).json({ message: 'Publisher not found' });
         }
 
-        // Find all books that have the publisher id as their publisher field.
-        const books = await Book.find({publisher: publisher._id});
+        const books = await Book.find({ publisher: publisher._id }).select('title author isbn publicationDate'); // Select specific fields
 
-        // Add the books to the publisher object.
         publisher.books = books;
 
         res.setHeader('Content-Type', 'application/json');

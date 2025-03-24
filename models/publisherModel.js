@@ -9,7 +9,12 @@ const publisherSchema = new Schema({
   email: { type: String, required: true, unique: true },
   phone: { type: String },
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  books: [{
+        type: Schema.Types.ObjectId,
+        
+        ref: 'book' // Reference the 'book' model
+    }]
 });
 
 
