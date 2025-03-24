@@ -26,8 +26,6 @@ app.use((req, res, next) => {
   });
 
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
@@ -42,7 +40,7 @@ const host = process.env.HOST;
 app.use('/books', bookRoutes);
 app.use('/publishers', publisherRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)

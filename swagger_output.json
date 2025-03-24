@@ -2,13 +2,13 @@
   "swagger": "2.0",
   "info": {
     "title": "REST API for Book Store",
-    "description": " This is a REST API for CSE341 course. The purpose of this API is to provide a way to manage books. This API will allow you to create, read, update, and delete book and their publisher. This API is built using Node.js, Express, and MongoDB. The API is hosted on Render and the database is hosted on MongoDB Atlas. The API is secured using JWT tokens. The API is documented using Swagger. The API is tested using Postman. The API is deployed using GitHub Actions",
+    "description": " This is a REST API for CSE341 course. The purpose of this API is to provide a way to manage Books and their Publishers. This API will allow you to create, read, update, and delete Books and their Publishers. This API is built using Node.js, Express, and MongoDB. The API is hosted on Render and the database is hosted on MongoDB Atlas. The API is secured using JWT tokens. The API is documented using Swagger. The API is tested using Postman. The API is deployed using GitHub Actions",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "bookstore-s1zp.onrender.com/",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/": {
