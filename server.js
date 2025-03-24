@@ -12,6 +12,7 @@ const connectDB = require('./database');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger_output.json'); // Path to your generated Swagger file
+// const swaggerSpec = require('./swagger'); // Import swagger.js
 
 // For parsing application/json
 app.use(express.json());

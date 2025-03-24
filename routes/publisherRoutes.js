@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
-const routers= require('express').Router();
-const { body, validationResult } = require('express-validator');
-
+const publisherRouter = require('express').Router(); // Changed to publisherRouter
 const controller = require('../controllers/publisherController');
 
 /**
@@ -13,10 +11,7 @@ const controller = require('../controllers/publisherController');
  * 200:
  * description: A list of publishers
  */
-
-routers.get('/', controller.getPublishers);
-
-// Route to get a publisher with its books by ID
+publisherRouter.get('/', controller.getPublishers);
 
 /**
  * @swagger
@@ -36,7 +31,7 @@ routers.get('/', controller.getPublishers);
  * 404:
  * description: Publisher not found
  */
-routers.get('/:id/books', controller.getPublisherByIdWithBooks);
+publisherRouter.get('/:id/books', controller.getPublisherByIdWithBooks);
 
 /**
  * @swagger
@@ -56,9 +51,7 @@ routers.get('/:id/books', controller.getPublisherByIdWithBooks);
  * 404:
  * description: Publisher not found
  */
-
-routers.get('/:id', controller.getPublisherById);
-
+publisherRouter.get('/:id', controller.getPublisherById);
 
 /**
  * @swagger
@@ -77,7 +70,7 @@ routers.get('/:id', controller.getPublisherById);
  * 400:
  * description: Validation error
  */
-routers.post('/', controller.addPublisherValidationRules, controller.addPublisher);
+publisherRouter.post('/', controller.addPublisherValidationRules, controller.addPublisher);
 
 /**
  * @swagger
@@ -105,7 +98,8 @@ routers.post('/', controller.addPublisherValidationRules, controller.addPublishe
  * 404:
  * description: Publisher not found
  */
-routers.put('/:id', controller.updatePublisherValidationRules, controller.updatePublisher);
+publisherRouter.put('/:id', controller.updatePublisherValidationRules, controller.updatePublisher);
+
 /**
  * @swagger
  * /publishers/{id}:
@@ -124,5 +118,6 @@ routers.put('/:id', controller.updatePublisherValidationRules, controller.update
  * 404:
  * description: Publisher not found
  */
-routers.delete('/:id', controller.deletePublisher);
-module.exports = routers;
+publisherRouter.delete('/:id', controller.deletePublisher);
+
+module.exports = publisherRouter; // Export publisherRouter

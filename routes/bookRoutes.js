@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
-const routers= require('express').Router();
+const bookRouter = require('express').Router(); // Changed to bookRouter
 const controller = require('../controllers/bookController');
-
 
 /**
  * @swagger
@@ -12,7 +11,7 @@ const controller = require('../controllers/bookController');
  * 200:
  * description: A list of books
  */
-routers.get('/', controller.getBooks);
+bookRouter.get('/', controller.getBooks);
 
 /**
  * @swagger
@@ -32,7 +31,7 @@ routers.get('/', controller.getBooks);
  * 404:
  * description: Book not found
  */
-routers.get('/:id', controller.getBookById);
+bookRouter.get('/:id', controller.getBookById);
 
 /**
  * @swagger
@@ -51,8 +50,7 @@ routers.get('/:id', controller.getBookById);
  * 400:
  * description: Validation error
  */
-routers.post('/', controller.addBookValidationRules, controller.addBook);
-
+bookRouter.post('/', controller.addBookValidationRules, controller.addBook);
 
 /**
  * @swagger
@@ -80,7 +78,7 @@ routers.post('/', controller.addBookValidationRules, controller.addBook);
  * 404:
  * description: Book not found
  */
-routers.put('/:id', controller.updateBookValidationRules, controller.updateBook);
+bookRouter.put('/:id', controller.updateBookValidationRules, controller.updateBook);
 
 /**
  * @swagger
@@ -100,6 +98,6 @@ routers.put('/:id', controller.updateBookValidationRules, controller.updateBook)
  * 404:
  * description: Book not found
  */
+bookRouter.delete('/:id', controller.deleteBook);
 
-routers.delete('/:id', controller.deleteBook);
-module.exports = routers;
+module.exports = bookRouter; // Export bookRouter
