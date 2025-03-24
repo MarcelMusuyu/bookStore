@@ -20,7 +20,10 @@ app.use(cors({ origin: '*' })); // Enable CORS for all routes
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -34,9 +37,6 @@ const host = process.env.HOST;
 
 // connectDB.main().catch(console.error);
 
-        // Define your routes here
-const bookRoutes= require('./routes/bookRoutes');
-const publisherRoutes = require('./routes/publisherRoutes');
 
 // Routes
 app.use('/books', bookRoutes);

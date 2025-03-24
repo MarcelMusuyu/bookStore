@@ -9,9 +9,10 @@ routers.get('/', controller.getBooks);
 
 routers.get('/:id', controller.getBookById);
 
-routers.post('/', controller.addBook);
 
-routers.put('/:id', controller.updateBook);
+routers.post('/', controller.addBookValidationRules, controller.addBook);
+
+routers.put('/:id', controller.updateBookValidationRules, controller.updateBook);
 
 routers.delete('/:id', controller.deleteBook);
 module.exports = routers;

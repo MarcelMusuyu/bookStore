@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
+const { body, validationResult } = require('express-validator');
 const publisherSchema = require('../models/publisherModel');
 const utilities= require('../utilities/');
+const bookSchema = require('../models/bookModel');
 
 // Publishers
 const getPublishers =  async (req, res) => {
@@ -35,7 +37,7 @@ const getPublisherByIdWithBooks = async (req, res) => {
 
         const publisher = await Publisher.findById(req.params.id).populate({
             path: 'books', // Populate the 'books' field
-            model: 'Book' // Specify the model to use
+            model: 'book' // Specify the model to use
         });
 
         if (!publisher) {
@@ -55,7 +57,22 @@ const getPublisherByIdWithBooks = async (req, res) => {
     }
 };
 
+const addPublisherValidationRules = [
+    body('firstName').notEmpty().withMessage('First name is required'),
+    body('email').isEmail().withMessage('Email must be a valid email address'),
+    body('email').notEmpty().withMessage('Email is required'),
+    body('username').notEmpty().withMessage('Username is required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    body('password').notEmpty().withMessage('Password is required'),
+];
+
+
 const addPublisher =  async (req, res) => {
+
+     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
       const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
     const publisher = new Publisher(req.body);
     try {
@@ -66,7 +83,22 @@ const addPublisher =  async (req, res) => {
     }
 };
 
+
+const updatePublisherValidationRules = [
+    body('firstName').optional().notEmpty().withMessage('First name is required'),
+    body('email').optional().isEmail().withMessage('Email must be a valid email address'),
+    body('email').optional().notEmpty().withMessage('Email is required'),
+    body('username').optional().notEmpty().withMessage('Username is required'),
+    body('password').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+    body('password').optional().notEmpty().withMessage('Password is required'),
+];
+
 const updatePublisher =  async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
           const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
         const updatedPublisher = await Publisher.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -95,7 +127,8 @@ module.exports = {
     addPublisher,
     updatePublisher,
     deletePublisher,
-    getPublisherByIdWithBooks
-
+    getPublisherByIdWithBooks,
+    updatePublisherValidationRules,
+    addPublisherValidationRules
 };
 

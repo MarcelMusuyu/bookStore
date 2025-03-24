@@ -2,6 +2,7 @@
 const mongoose = require('mongoose'); // Import mongoose
 const Schema = mongoose.Schema; //
 
+
 // Schemas
 const bookSchema = new Schema({
   title: { type: String, required: true },
@@ -18,5 +19,5 @@ const bookSchema = new Schema({
   pageCount: { type: Number, required: true}
 });
 
-const Book = mongoose.model('book', bookSchema);
-module.exports = Book;
+// const Book = mongoose.model('book', bookSchema);
+module.exports = bookSchema;
