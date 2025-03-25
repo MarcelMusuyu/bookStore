@@ -44,6 +44,7 @@ app.use('/publishers', publisherRoutes);
 
 //app.use('/', basicRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
