@@ -3,7 +3,7 @@ const env = require("dotenv").config();
 const swaggerDoc = require('swagger-autogen')();
 
 const outputFile = './swagger_output.json';
-const endpointsFiles = ['./routes/bookRoutes']; // Add all your route files here
+const endpointsFiles = ['./routes/bookRoutes.js', './routes/publisherRoutes.js']; 
 
 const doc = {
   info: {
@@ -13,6 +13,14 @@ const doc = {
   host: "bookstore-s1zp.onrender.com", // Change to your host and port
   basePath: '/', // Important: Set the base path to /books
   schemes: ['https'], // Change to https if you're using https
+  securityDefinitions: {
+  bearerAuth: {
+    type: 'apiKey',
+    in: 'header',
+    name: 'Authorization',
+    description: 'JWT Authorization header using the Bearer scheme.',
+  },
+},
 };
 
 swaggerDoc(outputFile, endpointsFiles, doc);

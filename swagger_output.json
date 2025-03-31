@@ -10,6 +10,15 @@
   "schemes": [
     "https"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "JWT Authorization header using the Bearer scheme."
+    }
+  }
+  ,
   "paths": {
     "/books/": {
       "get": {

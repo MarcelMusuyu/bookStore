@@ -7,7 +7,7 @@ const env = require("dotenv").config();
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger_output.json'); // Path to your generated Swagger file
-
+const authRoutes = require('./routes/authRoutes'); // Import authRoutes
 const bookRoutes = require('./routes/bookRoutes');
 const publisherRoutes = require('./routes/publisherRoutes');
 
@@ -37,7 +37,8 @@ const host = process.env.HOST;
 
 // connectDB.main().catch(console.error);
 
-
+// Use authRoutes for authentication-related endpoints
+app.use('/auth', authRoutes);
 // Routes
  app.use('/books', bookRoutes);
 app.use('/publishers', publisherRoutes);
