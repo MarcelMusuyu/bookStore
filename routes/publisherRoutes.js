@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const publisherRouter = require('express').Router();
 const controller = require('../controllers/publisherController');
+const auth = require('../middleware/auth'); // Import the auth middleware
 
 /**
  * @swagger
@@ -11,7 +12,7 @@ const controller = require('../controllers/publisherController');
  * 200:
  * description: A list of publishers
  */
-publisherRouter.get('/', controller.getPublishers);
+publisherRouter.get('/',auth ,controller.getPublishers);
 
 /**
  * @swagger
@@ -31,7 +32,7 @@ publisherRouter.get('/', controller.getPublishers);
  * 404:
  * description: Publisher not found
  */
-publisherRouter.get('/:id/books', controller.getPublisherByIdWithBooks);
+publisherRouter.get('/:id/books',auth, controller.getPublisherByIdWithBooks);
 
 /**
  * @swagger
@@ -51,7 +52,7 @@ publisherRouter.get('/:id/books', controller.getPublisherByIdWithBooks);
  * 404:
  * description: Publisher not found
  */
-publisherRouter.get('/:id', controller.getPublisherById);
+publisherRouter.get('/:id',auth, controller.getPublisherById);
 
 /**
  * @swagger
@@ -70,7 +71,7 @@ publisherRouter.get('/:id', controller.getPublisherById);
  * 400:
  * description: Validation error
  */
-publisherRouter.post('/', controller.addPublisherValidationRules, controller.addPublisher);
+publisherRouter.post('/', auth, controller.addPublisherValidationRules, controller.addPublisher);
 
 /**
  * @swagger
@@ -98,7 +99,7 @@ publisherRouter.post('/', controller.addPublisherValidationRules, controller.add
  * 404:
  * description: Publisher not found
  */
-publisherRouter.put('/:id', controller.updatePublisherValidationRules, controller.updatePublisher);
+publisherRouter.put('/:id',auth,  controller.updatePublisherValidationRules, controller.updatePublisher);
 
 /**
  * @swagger
@@ -118,6 +119,6 @@ publisherRouter.put('/:id', controller.updatePublisherValidationRules, controlle
  * 404:
  * description: Publisher not found
  */
-publisherRouter.delete('/:id', controller.deletePublisher);
+publisherRouter.delete('/:id', auth, controller.deletePublisher);
 
 module.exports = publisherRouter;

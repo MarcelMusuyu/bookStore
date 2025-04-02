@@ -1,6 +1,4 @@
 /* eslint-disable no-undef */
-// routes/authRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -35,11 +33,12 @@ router.post('/login', async (req, res) => {
 
     jwt.sign(
       payload,
-      process.env.JWT_SECRET, // Replace with your secret key
-      { expiresIn: '1h' }, // Token expiration time
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        // Sending token in response header
+        res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful' });
       }
     );
   } catch (err) {
