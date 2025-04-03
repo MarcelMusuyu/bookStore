@@ -3,7 +3,7 @@ const env = require("dotenv").config();
 const swaggerDoc = require('swagger-autogen')();
 
 const outputFile = './swagger_output.json';
-const endpointsFiles = ['./routes/bookRoutes.js', './routes/publisherRoutes.js']; 
+const endpointsFiles = ['./routes/bookRoutes.js', './routes/publisherRoutes.js','./routes/authRoutes.js']; 
 
 const doc = {
   info: {

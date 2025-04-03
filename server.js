@@ -2,48 +2,40 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 const env = require("dotenv").config();
 
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger_output.json'); // Path to your generated Swagger file
-const authRoutes = require('./routes/authRoutes'); // Import authRoutes
+const swaggerDocument = require('./swagger_output.json');
+const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const publisherRoutes = require('./routes/publisherRoutes');
-
-
-
-// const swaggerSpec = require('./swagger'); // Import swagger.js
 
 // For parsing application/json
 app.use(express.json());
 
 app.use(cors({ origin: '*' })); // Enable CORS for all routes
+
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-  });
-
+// Removed redundant header setting (cors already handles it)
 
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
- *************************/
+ **************************/
 const port = process.env.PORT;
 const host = process.env.HOST;
 
-// connectDB.main().catch(console.error);
-
 // Use authRoutes for authentication-related endpoints
 app.use('/auth', authRoutes);
+
 // Routes
- app.use('/books', bookRoutes);
+app.use('/books', bookRoutes);
 app.use('/publishers', publisherRoutes);
 
-//app.use('/', basicRoutes);
+// Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

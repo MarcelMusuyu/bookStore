@@ -7,7 +7,37 @@ const env = require("dotenv").config();
 const publisherSchema = require('../models/publisherModel');
 const utilities = require('../utilities');
 
-// Login route
+/**
+ * @swagger
+ * /auth/login:
+ * post:
+ * summary: User login
+ * requestBody:
+ * required: true
+ * content:
+ * application/json:
+ * schema:
+ * type: object
+ * properties:
+ * username:
+ * type: string
+ * description: The user's username.
+ * password:
+ * type: string
+ * description: The user's password.
+ * responses:
+ * 200:
+ * description: Login successful, JWT token in Authorization header.
+ * headers:
+ * Authorization:
+ * schema:
+ * type: string
+ * description: JWT token for authorization.
+ * 400:
+ * description: Invalid credentials.
+ * 500:
+ * description: Server error.
+ */
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 

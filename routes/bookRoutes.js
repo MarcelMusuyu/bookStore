@@ -2,14 +2,21 @@
 const bookRouter = require('express').Router();
 const controller = require('../controllers/bookController');
 const auth = require('../middleware/auth'); // Import the auth middleware
+
 /**
  * @swagger
  * /books/:
  * get:
  * summary: Get all books
+ * security:
+ * - bearerAuth: []
  * responses:
  * 200:
  * description: A list of books
+ * 401:
+ * description: unauthorized
+ * 500:
+ * description: server error
  */
 bookRouter.get('/', auth, controller.getBooks);
 
@@ -25,11 +32,17 @@ bookRouter.get('/', auth, controller.getBooks);
  * schema:
  * type: string
  * description: The book ID
+ * security:
+ * - bearerAuth: []
  * responses:
  * 200:
  * description: The book object
  * 404:
  * description: Book not found
+ * 401:
+ * description: unauthorized
+ * 500:
+ * description: server error
  */
 bookRouter.get('/:id', auth, controller.getBookById);
 
@@ -38,6 +51,8 @@ bookRouter.get('/:id', auth, controller.getBookById);
  * /books/:
  * post:
  * summary: Create a new book
+ * security:
+ * - bearerAuth: []
  * requestBody:
  * required: true
  * content:
@@ -49,6 +64,10 @@ bookRouter.get('/:id', auth, controller.getBookById);
  * description: The created book
  * 400:
  * description: Validation error
+ * 401:
+ * description: unauthorized
+ * 500:
+ * description: server error
  */
 bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook);
 
@@ -64,6 +83,8 @@ bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook
  * schema:
  * type: string
  * description: The book ID
+ * security:
+ * - bearerAuth: []
  * requestBody:
  * required: true
  * content:
@@ -77,6 +98,10 @@ bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook
  * description: Validation error
  * 404:
  * description: Book not found
+ * 401:
+ * description: unauthorized
+ * 500:
+ * description: server error
  */
 bookRouter.put('/:id', auth, controller.updateBookValidationRules, controller.updateBook);
 
@@ -92,11 +117,17 @@ bookRouter.put('/:id', auth, controller.updateBookValidationRules, controller.up
  * schema:
  * type: string
  * description: The book ID
+ * security:
+ * - bearerAuth: []
  * responses:
  * 200:
  * description: Book deleted
  * 404:
  * description: Book not found
+ * 401:
+ * description: unauthorized
+ * 500:
+ * description: server error
  */
 bookRouter.delete('/:id', auth, controller.deleteBook);
 
