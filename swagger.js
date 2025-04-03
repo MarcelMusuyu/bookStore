@@ -1,26 +1,71 @@
-const env = require("dotenv").config();
-// eslint-disable-next-line no-undef
-const swaggerDoc = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = './swagger_output.json';
-const endpointsFiles = ['./routes/bookRoutes.js', './routes/publisherRoutes.js','./routes/authRoutes.js']; 
+const endpointsFiles = ['./routes/bookRoutes.js', './routes/publisherRoutes.js', './routes/authRoutes.js']; // Include authRoutes
 
 const doc = {
   info: {
-    title: 'REST API for Book Store', 
-    description: ' This is a REST API for CSE341 course. The purpose of this API is to provide a way to manage Books and their Publishers. This API will allow you to create, read, update, and delete Books and their Publishers. This API is built using Node.js, Express, and MongoDB. The API is hosted on Render and the database is hosted on MongoDB Atlas. The API is secured using JWT tokens. The API is documented using Swagger. The API is tested using Postman. The API is deployed using GitHub Actions', 
+    title: 'Book Store API',
+    description: 'API documentation for the Book Store application.',
   },
-  host: "bookstore-s1zp.onrender.com", // Change to your host and port
-  basePath: '/', // Important: Set the base path to /books
-  schemes: ['https'], // Change to https if you're using https
+  host: 'bookstore-s1zp.onrender.com', // Replace with your host
+  schemes: ['https'],
   securityDefinitions: {
-  bearerAuth: {
-    type: 'apiKey',
-    in: 'header',
-    name: 'Authorization',
-    description: 'JWT Authorization header using the Bearer scheme.',
+    bearerAuth: {
+      type: 'apiKey',
+      in: 'header',
+      name: 'Authorization',
+      description: 'JWT Authorization header using the Bearer scheme.',
+    },
   },
-},
+  definitions: { // Define your schemas here
+    Book: {
+      type: 'object',
+      required: [
+        'title',
+        'author',
+        'isbn',
+        'publicationDate',
+        'genre',
+        'description',
+        'pdfFile',
+        'publisher',
+        'pageCount',
+      ],
+      properties: {
+        title: { type: 'string' },
+        author: { type: 'string' },
+        isbn: { type: 'string' },
+        publicationDate: { type: 'string', format: 'date' },
+        genre: { type: 'string' },
+        description: { type: 'string' },
+        pdfFile: { type: 'string' },
+        publisher: { type: 'string' },
+        pageCount: { type: 'integer', minimum: 1 },
+      },
+    },
+      Publisher: {
+      type: 'object',
+      required: ['firstName', 'email', 'username', 'password'],
+      properties: {
+        firstName: { type: 'string' },
+        lastName: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        phone: { type: 'string' },
+        username: { type: 'string' },
+        password: { type: 'string' },
+        books: { type: 'array', items: { type: 'object' } },
+      },
+    },
+     Login: {
+      type: 'object',
+      required: ['username', 'password'],
+      properties: {
+        username: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+  },
 };
 
-swaggerDoc(outputFile, endpointsFiles, doc);
+swaggerAutogen(outputFile, endpointsFiles, doc)

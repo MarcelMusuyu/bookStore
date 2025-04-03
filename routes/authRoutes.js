@@ -17,14 +17,7 @@ const utilities = require('../utilities');
  * content:
  * application/json:
  * schema:
- * type: object
- * properties:
- * username:
- * type: string
- * description: The user's username.
- * password:
- * type: string
- * description: The user's password.
+ * $ref: '#/definitions/Login'
  * responses:
  * 200:
  * description: Login successful, JWT token in Authorization header.
@@ -52,7 +45,7 @@ router.post('/login', async (req, res) => {
     // const isMatch = await bcrypt.compare(password, publisher.password);
 
     // if (!isMatch) {
-    //   return res.status(400).json({ message: 'Invalid credentials' });
+    //  return res.status(400).json({ message: 'Invalid credentials' });
     // }
 
     const payload = {

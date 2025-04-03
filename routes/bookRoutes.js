@@ -5,20 +5,16 @@ const auth = require('../middleware/auth'); // Import the auth middleware
 
 /**
  * @swagger
- * /books/:
+ * /books:
  * get:
  * summary: Get all books
  * security:
  * - bearerAuth: []
  * responses:
  * 200:
- * description: A list of books
- * 401:
- * description: unauthorized
- * 500:
- * description: server error
+ * description: The books found
  */
-bookRouter.get('/', auth, controller.getBooks);
+bookRouter.get('/books', auth, controller.getBooks);
 
 /**
  * @swagger
@@ -31,24 +27,17 @@ bookRouter.get('/', auth, controller.getBooks);
  * required: true
  * schema:
  * type: string
- * description: The book ID
  * security:
  * - bearerAuth: []
  * responses:
  * 200:
  * description: The book object
- * 404:
- * description: Book not found
- * 401:
- * description: unauthorized
- * 500:
- * description: server error
  */
-bookRouter.get('/:id', auth, controller.getBookById);
+bookRouter.get('/books/:id', auth, controller.getBookById);
 
 /**
  * @swagger
- * /books/:
+ * /books:
  * post:
  * summary: Create a new book
  * security:
@@ -58,18 +47,12 @@ bookRouter.get('/:id', auth, controller.getBookById);
  * content:
  * application/json:
  * schema:
- * $ref: '#/components/schemas/Book'
+ * $ref: '#/definitions/Book'
  * responses:
  * 201:
  * description: The created book
- * 400:
- * description: Validation error
- * 401:
- * description: unauthorized
- * 500:
- * description: server error
  */
-bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook);
+bookRouter.post('/books', auth, controller.addBookValidationRules, controller.addBook);
 
 /**
  * @swagger
@@ -82,7 +65,6 @@ bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook
  * required: true
  * schema:
  * type: string
- * description: The book ID
  * security:
  * - bearerAuth: []
  * requestBody:
@@ -90,20 +72,12 @@ bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook
  * content:
  * application/json:
  * schema:
- * $ref: '#/components/schemas/Book'
+ * $ref: '#/definitions/Book'
  * responses:
  * 200:
  * description: The updated book
- * 400:
- * description: Validation error
- * 404:
- * description: Book not found
- * 401:
- * description: unauthorized
- * 500:
- * description: server error
  */
-bookRouter.put('/:id', auth, controller.updateBookValidationRules, controller.updateBook);
+bookRouter.put('/books/:id', auth, controller.updateBookValidationRules, controller.updateBook);
 
 /**
  * @swagger
@@ -116,19 +90,12 @@ bookRouter.put('/:id', auth, controller.updateBookValidationRules, controller.up
  * required: true
  * schema:
  * type: string
- * description: The book ID
  * security:
  * - bearerAuth: []
  * responses:
  * 200:
  * description: Book deleted
- * 404:
- * description: Book not found
- * 401:
- * description: unauthorized
- * 500:
- * description: server error
  */
-bookRouter.delete('/:id', auth, controller.deleteBook);
+bookRouter.delete('/books/:id', auth, controller.deleteBook);
 
-module.exports = bookRouter;
+module.exports = bookRouter
