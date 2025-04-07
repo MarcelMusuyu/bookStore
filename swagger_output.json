@@ -19,7 +19,7 @@
     }
   },
   "paths": {
-    "auth/login": {
+    "/auth/login": {
       "post": {
         "description": "",
         "parameters": [
