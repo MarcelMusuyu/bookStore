@@ -318,8 +318,14 @@
                 "firstName": {
                   "example": "John"
                 },
+                 "lastName": {
+                  "example": "Doe"
+                },
                 "email": {
                   "example": "johndoe@gmail.com"
+                },
+                 "phone": {
+                  "example": "John"
                 },
                 "username": {
                   "example": "johndoe"
@@ -436,8 +442,15 @@
                 "firstName": {
                   "example": "John"
                 },
+               
+                 "lastName": {
+                  "example": "Doe"
+                },
                 "email": {
                   "example": "johndoe@gmail.com"
+                },
+                 "phone": {
+                  "example": "John"
                 },
                 "username": {
                   "example": "johndoe"
