@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 // Publishers
 const getPublishers =  async (req, res) => {
     try {
-        const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
+        const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
         const publishers = await Publisher.find();
         res.setHeader('Content-Type', 'application/json');
         res.json(publishers);
@@ -19,7 +19,7 @@ const getPublishers =  async (req, res) => {
 
 const getPublisherById =  async (req, res) => {
     try {
-          const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
+          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
         const publisher = await Publisher.findById(req.params.id);
         if (!publisher) return res.status(404).json({ message: 'Publisher not found' });
         res.setHeader('Content-Type', 'application/json');
@@ -33,8 +33,8 @@ const getPublisherById =  async (req, res) => {
 
 const getPublisherByIdWithBooks = async (req, res) => {
     try {
-        const Publisher = await utilities.getModel('bookStore', publisherSchema, 'Publisher');
-        const Book = await utilities.getModel('bookStore', bookSchema, 'Book'); // Get the Book model
+        const Publisher = await utilities.getModel('libraryStore', publisherSchema, 'publisher');
+        const Book = await utilities.getModel('libraryStore', bookSchema, 'Book'); // Get the Book model
 
        const publisher = await Publisher.findById(req.params.id);
 
@@ -69,15 +69,14 @@ const addPublisher =  async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-      const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
+      const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
+     
+    
     const publisher = new Publisher(req.body);
     try {
-        bcrypt.hash(publisher.password, 10, async (err, hash) => {
-            if (err) {
-                return res.status(500).json({ message: err.message });
-            }
-            publisher.password = hash;
-        });
+          const hash = await bcrypt.hash(publisher.password, 10)
+         publisher.password = hash;
+       
         const newPublisher = await publisher.save();
         res.status(201).json(newPublisher);
     } catch (err) {
@@ -102,7 +101,7 @@ const updatePublisher =  async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-          const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
+          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
         const updatedPublisher = await Publisher.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedPublisher) return res.status(404).json({ message: 'Publisher not found' });
         res.json(updatedPublisher);
@@ -113,7 +112,7 @@ const updatePublisher =  async (req, res) => {
 
 const deletePublisher = async (req, res) => {
     try {
-          const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
+          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
         const deletedPublisher = await Publisher.findByIdAndDelete(req.params.id);
         if (!deletedPublisher) return res.status(404).json({ message: 'Publisher not found' });
         res.json({ message: 'Publisher deleted' });
