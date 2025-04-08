@@ -14,7 +14,7 @@ const auth = require('../middleware/auth'); // Import the auth middleware
  * 200:
  * description: The books found
  */
-bookRouter.get('/books', auth, controller.getBooks);
+bookRouter.get('/', auth, controller.getBooks);
 
 /**
  * @swagger
@@ -33,7 +33,7 @@ bookRouter.get('/books', auth, controller.getBooks);
  * 200:
  * description: The book object
  */
-bookRouter.get('/books/:id', auth, controller.getBookById);
+bookRouter.get('/:id', auth, controller.getBookById);
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ bookRouter.get('/books/:id', auth, controller.getBookById);
  * 201:
  * description: The created book
  */
-bookRouter.post('/books', auth, controller.addBookValidationRules, controller.addBook);
+bookRouter.post('/', controller.addBookValidationRules, controller.addBook);
 
 /**
  * @swagger
@@ -77,7 +77,7 @@ bookRouter.post('/books', auth, controller.addBookValidationRules, controller.ad
  * 200:
  * description: The updated book
  */
-bookRouter.put('/books/:id', auth, controller.updateBookValidationRules, controller.updateBook);
+bookRouter.put('/:id', auth, controller.updateBookValidationRules, controller.updateBook);
 
 /**
  * @swagger
@@ -96,6 +96,6 @@ bookRouter.put('/books/:id', auth, controller.updateBookValidationRules, control
  * 200:
  * description: Book deleted
  */
-bookRouter.delete('/books/:id', auth, controller.deleteBook);
+bookRouter.delete('/:id', auth, controller.deleteBook);
 
 module.exports = bookRouter

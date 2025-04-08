@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 const publisherSchema = require('../models/publisherModel');
 const utilities= require('../utilities/');
 const bookSchema = require('../models/bookModel');
+const bcrypt = require('bcryptjs');
 
 // Publishers
 const getPublishers =  async (req, res) => {
@@ -71,6 +72,12 @@ const addPublisher =  async (req, res) => {
       const Publisher = await  utilities.getModel('bookStore', publisherSchema, 'publisher');
     const publisher = new Publisher(req.body);
     try {
+        bcrypt.hash(publisher.password, 10, async (err, hash) => {
+            if (err) {
+                return res.status(500).json({ message: err.message });
+            }
+            publisher.password = hash;
+        });
         const newPublisher = await publisher.save();
         res.status(201).json(newPublisher);
     } catch (err) {

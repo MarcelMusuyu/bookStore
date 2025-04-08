@@ -18,7 +18,7 @@ const auth = require('../middleware/auth'); // Import the auth middleware
  * 500:
  * description: server error
  */
-publisherRouter.get('publishers/', auth, controller.getPublishers);
+publisherRouter.get('/', auth, controller.getPublishers);
 
 /**
  * @swagger
@@ -44,7 +44,7 @@ publisherRouter.get('publishers/', auth, controller.getPublishers);
  * 500:
  * description: server error
  */
-publisherRouter.get('publishers/:id/books', auth, controller.getPublisherByIdWithBooks);
+publisherRouter.get('/:id/books', auth, controller.getPublisherByIdWithBooks);
 
 /**
  * @swagger
@@ -70,7 +70,7 @@ publisherRouter.get('publishers/:id/books', auth, controller.getPublisherByIdWit
  * 500:
  * description: server error
  */
-publisherRouter.get('publishers/:id', auth, controller.getPublisherById);
+publisherRouter.get('/:id', auth, controller.getPublisherById);
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ publisherRouter.get('publishers/:id', auth, controller.getPublisherById);
  * 500:
  * description: server error
  */
-publisherRouter.post('publishers/', auth, controller.addPublisherValidationRules, controller.addPublisher);
+publisherRouter.post('/', controller.addPublisherValidationRules, controller.addPublisher);
 
 /**
  * @swagger
@@ -129,7 +129,7 @@ publisherRouter.post('publishers/', auth, controller.addPublisherValidationRules
  * 500:
  * description: server error
  */
-publisherRouter.put('publishers/:id', auth, controller.updatePublisherValidationRules, controller.updatePublisher);
+publisherRouter.put('/:id', auth, controller.updatePublisherValidationRules, controller.updatePublisher);
 
 /**
  * @swagger
@@ -155,6 +155,6 @@ publisherRouter.put('publishers/:id', auth, controller.updatePublisherValidation
  * 500:
  * description: server error
  */
-publisherRouter.delete('publishers/:id', auth, controller.deletePublisher);
+publisherRouter.delete('/:id', auth, controller.deletePublisher);
 
 module.exports = publisherRouter;

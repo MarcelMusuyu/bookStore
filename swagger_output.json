@@ -271,7 +271,7 @@
         }
       }
     },
-    "publishers/": {
+    "/publishers": {
       "get": {
         "description": "",
         "produces": [
@@ -344,7 +344,7 @@
         }
       }
     },
-    "publishers/{id}/books": {
+    "/publishers/{id}/books": {
       "get": {
         "description": "",
         "produces": [
@@ -379,7 +379,7 @@
         }
       }
     },
-    "publishers/{id}": {
+    "/publishers/{id}": {
       "get": {
         "description": "",
         "produces": [
