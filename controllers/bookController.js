@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const bookSchema = require('../models/bookModel');
+const Book = require('../models/bookModel');
 // eslint-disable-next-line no-unused-vars
 const express = require('express');
 
@@ -10,8 +10,6 @@ const { body, validationResult } = require('express-validator');
 
 const getBooks = async (req, res) => {
   try {
-
-     const Book = await utilities.getModel('libraryStore', bookSchema, 'book');
     
     const books = await Book.find();
     res.setHeader('Content-Type', 'application/json');
@@ -25,8 +23,6 @@ const getBooks = async (req, res) => {
 const getBookById = async (req, res) => {
     try {
 
-
-        const Book = await utilities.getModel('libraryStore', bookSchema, 'book');
         const book = await Book.findById(req.params.id);
         if (!book) return res.status(404).json({ message: 'Book not found' });
         res.setHeader('Content-Type', 'application/json');
@@ -53,10 +49,14 @@ const addBookValidationRules = [
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
- const Book = await utilities.getModel('libraryStore', bookSchema, 'book');
-  const book = new Book(req.body);
+ 
+ 
   try {
-    const newBook = await book.save();
+    const bookSave = new Book(req.body);
+    const  newBook = await bookSave.save();
+   
+   if (!newBook) return res.status(400).json({ message: 'Book not created' });
+
     
     res.status(201).json(newBook);
   } catch (err) {
@@ -82,7 +82,7 @@ const updateBookValidationRules = [
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const Book = await utilities.getModel('libraryStore', bookSchema, 'book');
+       
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedBook) return res.status(404).json({ message: 'Book not found' });
         res.json(updatedBook);
@@ -93,7 +93,7 @@ const updateBookValidationRules = [
 
 const deleteBook= async (req, res) => {
     try {
-        const Book = await utilities.getModel('libraryStore', bookSchema, 'book');
+      
         const deletedBook = await Book.findByIdAndDelete(req.params.id);
         if (!deletedBook) return res.status(404).json({ message: 'Book not found' });
         res.json({ message: 'Book deleted' });

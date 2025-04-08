@@ -39,8 +39,15 @@ app.use('/publishers', publisherRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI,
+   {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'bookStore' 
+   }
+)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(port, () => {

@@ -52,7 +52,7 @@ bookRouter.get('/:id', auth, controller.getBookById);
  * 201:
  * description: The created book
  */
-bookRouter.post('/', controller.addBookValidationRules, controller.addBook);
+bookRouter.post('/', auth, controller.addBookValidationRules, controller.addBook);
 
 /**
  * @swagger

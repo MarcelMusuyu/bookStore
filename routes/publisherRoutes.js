@@ -95,7 +95,7 @@ publisherRouter.get('/:id', auth, controller.getPublisherById);
  * 500:
  * description: server error
  */
-publisherRouter.post('/', controller.addPublisherValidationRules, controller.addPublisher);
+publisherRouter.post('/', auth, controller.addPublisherValidationRules, controller.addPublisher);
 
 /**
  * @swagger

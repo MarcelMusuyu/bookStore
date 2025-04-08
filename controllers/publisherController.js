@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
 const { body, validationResult } = require('express-validator');
-const publisherSchema = require('../models/publisherModel');
+const publisherModel = require('../models/publisherModel');
 const utilities= require('../utilities/');
-const bookSchema = require('../models/bookModel');
+const Book = require('../models/bookModel');
 const bcrypt = require('bcryptjs');
 
 // Publishers
 const getPublishers =  async (req, res) => {
     try {
-        const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
-        const publishers = await Publisher.find();
+      
+        const publishers = await publisherModel.find();
         res.setHeader('Content-Type', 'application/json');
         res.json(publishers);
     } catch (err) {
@@ -19,8 +19,8 @@ const getPublishers =  async (req, res) => {
 
 const getPublisherById =  async (req, res) => {
     try {
-          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
-        const publisher = await Publisher.findById(req.params.id);
+        
+        const publisher = await publisherModel.findById(req.params.id);
         if (!publisher) return res.status(404).json({ message: 'Publisher not found' });
         res.setHeader('Content-Type', 'application/json');
         res.json(publisher);
@@ -29,22 +29,24 @@ const getPublisherById =  async (req, res) => {
     }
 };
 
-// Assuming you have your bookSchema and publisherSchema defined elsewhere
+// Assuming you have your bookSchema and publisherModel defined elsewhere
 
 const getPublisherByIdWithBooks = async (req, res) => {
     try {
-        const Publisher = await utilities.getModel('libraryStore', publisherSchema, 'publisher');
-        const Book = await utilities.getModel('libraryStore', bookSchema, 'Book'); // Get the Book model
+     
+        const publisher = await publisherModel.findById(req.params.id);
 
-       const publisher = await Publisher.findById(req.params.id);
+      
 
         if (!publisher) {
             return res.status(404).json({ message: 'Publisher not found' });
         }
 
-        const books = await Book.find({ publisher: publisher._id }).select('title author isbn publicationDate'); // Select specific fields
-
-        publisher.books = books;
+        const books = await Book.find({ publisher: req.params.id });
+        if (books) {
+             publisher.books = books; // Attach the books to the publisher object
+        }
+      
 
         res.setHeader('Content-Type', 'application/json');
         res.json(publisher);
@@ -69,16 +71,26 @@ const addPublisher =  async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-      const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
      
+     
+   
     
-    const publisher = new Publisher(req.body);
     try {
-          const hash = await bcrypt.hash(publisher.password, 10)
-         publisher.password = hash;
-       
+          const hash = await bcrypt.hash(req.body.password, 10)
+     const publisher =  new publisherModel({firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email : req.body.email,
+        phone: req.body.phone,
+        username : req.body.username,
+        password : hash
+        });
         const newPublisher = await publisher.save();
-        res.status(201).json(newPublisher);
+        if(newPublisher){
+             res.status(201).json(newPublisher);
+        }else{
+            res.status(400).json({ message: 'Publisher not created' });
+        }
+       
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -101,8 +113,8 @@ const updatePublisher =  async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
-        const updatedPublisher = await Publisher.findByIdAndUpdate(req.params.id, req.body, { new: true });
+         
+        const updatedPublisher = await publisherModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedPublisher) return res.status(404).json({ message: 'Publisher not found' });
         res.json(updatedPublisher);
     } catch (err) {
@@ -112,8 +124,8 @@ const updatePublisher =  async (req, res) => {
 
 const deletePublisher = async (req, res) => {
     try {
-          const Publisher = await  utilities.getModel('libraryStore', publisherSchema, 'publisher');
-        const deletedPublisher = await Publisher.findByIdAndDelete(req.params.id);
+         
+        const deletedPublisher = await publisherModel.findByIdAndDelete(req.params.id);
         if (!deletedPublisher) return res.status(404).json({ message: 'Publisher not found' });
         res.json({ message: 'Publisher deleted' });
     } catch (err) {

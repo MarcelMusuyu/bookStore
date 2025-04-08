@@ -4,8 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const env = require("dotenv").config();
-const publisherSchema = require('../models/publisherModel');
-const utilities = require('../utilities');
+const publisherModel = require('../models/publisherModel');
+
 
 /**
  * @swagger
@@ -32,11 +32,11 @@ const utilities = require('../utilities');
  * description: Server error.
  */
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const Publisher = await utilities.getModel('bookStore', publisherSchema, 'publisher');
-    const publisher = await Publisher.findOne({ username });
+    
+    const publisher = await publisherModel.findOne({ email });
 
     if (!publisher) {
       return res.status(400).json({ message: 'Invalid credentials' });
